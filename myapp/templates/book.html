@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>book</p>
+
+    {% for bok in book %}
+    {{ bok.title }}
+    {{ bok.author }}
+    {{ bok.pages }}
+    {{ bok.price }}
+    {{ bok.description }}
+
+    <a href="{% url 'delete' bok.id %}"> <button>delete</button> </a>
+    <a href="{% url 'update' bok.id %}"> <button>update</button> </a>
+
+    {% endfor %}
+
+    <a href="{% url 'creat_book' %}"> <button>create_book</button> </a>
+    
+</body>
+</html>
