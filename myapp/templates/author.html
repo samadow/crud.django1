@@ -1,22 +1,44 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Authors</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <p>aythor</p>
+    <main class="container">
+        <nav>
+            <a class="active" href="{% url 'author_author' %}">Authors</a>
+            <a href="{% url 'book_book' %}">Books</a>
+        </nav>
 
-    {% for aut in author %}
-    {{ aut.name }}
-    {{ aut.last_name }}
-    {{ aut.b_date }}
+        <div class="top">
+            <h1>Authors</h1>
+            <a class="button" href="{% url 'create' %}">Create author</a>
+        </div>
 
-    {% endfor %}
+        <form class="search" method="get">
+            <input type="text" name="search" value="{{ search }}" placeholder="Search author...">
+            <button type="submit">Search</button>
+            {% if search %}
+                <a href="{% url 'author_author' %}">Clear</a>
+            {% endif %}
+        </form>
 
-    <a href="{% url 'create' %}"> <button>create</button> </a>
-    
-    
+        <div class="list">
+            {% for aut in author %}
+                <div class="card">
+                    <div>
+                        <h2>{{ aut.name }} {{ aut.last_name }}</h2>
+                        <p>Birth year: {{ aut.b_date }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="empty">Author not found.</p>
+            {% endfor %}
+        </div>
+    </main>
 </body>
 </html>

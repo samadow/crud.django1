@@ -1,23 +1,41 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Create book</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <h1>create_books</h1>
+    <main class="container small">
+        <a class="back" href="{% url 'book_book' %}">← Back</a>
+        <h1>Create book</h1>
 
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="title">
-        <input type="text" name="author">
-        <input type="number" name="pages">
-        <input type="number" name="price">
-        <input type="text" name="description">
-        <button type="submit">create_book</button>
-    </form>
-    
-    
+        <form class="form" method="post">
+            {% csrf_token %}
+            <label>Title</label>
+            <input type="text" name="title" required>
+
+            <label>Author</label>
+            <select name="author" required>
+                <option value="">Choose author</option>
+                {% for aut in author %}
+                    <option value="{{ aut.id }}">{{ aut.name }} {{ aut.last_name }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Pages</label>
+            <input type="number" name="pages" min="1" required>
+
+            <label>Price</label>
+            <input type="number" name="price" min="0" required>
+
+            <label>Description</label>
+            <textarea name="description" rows="4" required></textarea>
+
+            <button type="submit">Create book</button>
+        </form>
+    </main>
 </body>
 </html>

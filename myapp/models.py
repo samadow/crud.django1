@@ -6,11 +6,11 @@ class Author(models.Model):
     b_date = models.IntegerField()
     
     def __str__(self):
-        return self.name
+        return f'{self.name} {self.last_name}'
     
 class Book(models.Model):
     title = models.CharField(max_length=50)
-    author =models.CharField(max_length=50)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
     pages = models.IntegerField()
     price = models.IntegerField()
     description = models.TextField()

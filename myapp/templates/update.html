@@ -1,22 +1,42 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Update book</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <h1>update</h1>
+    <main class="container small">
+        <a class="back" href="{% url 'book_book' %}">← Back</a>
+        <h1>Update book</h1>
 
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="title" value="{{ book.title }}">
-        <input type="text" name="author" value="{{ book.author }}">
-        <input type="number" name="pages" value="{{ book.pages }}">
-        <input type="number" name="price" value="{{ book.price }}">
-        <input type="text" name="description" value="{{ book.description }}">
-        <button type="submit">update</button>
-    </form>
-    
+        <form class="form" method="post">
+            {% csrf_token %}
+            <label>Title</label>
+            <input type="text" name="title" value="{{ book.title }}" required>
+
+            <label>Author</label>
+            <select name="author" required>
+                {% for aut in author %}
+                    <option value="{{ aut.id }}" {% if aut.id == book.author_id %}selected{% endif %}>
+                        {{ aut.name }} {{ aut.last_name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label>Pages</label>
+            <input type="number" name="pages" min="1" value="{{ book.pages }}" required>
+
+            <label>Price</label>
+            <input type="number" name="price" min="0" value="{{ book.price }}" required>
+
+            <label>Description</label>
+            <textarea name="description" rows="4" required>{{ book.description }}</textarea>
+
+            <button type="submit">Update</button>
+        </form>
+    </main>
 </body>
 </html>

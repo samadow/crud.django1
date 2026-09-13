@@ -1,26 +1,50 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Books</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <p>book</p>
+    <main class="container">
+        <nav>
+            <a href="{% url 'author_author' %}">Authors</a>
+            <a class="active" href="{% url 'book_book' %}">Books</a>
+        </nav>
 
-    {% for bok in book %}
-    {{ bok.title }}
-    {{ bok.author }}
-    {{ bok.pages }}
-    {{ bok.price }}
-    {{ bok.description }}
+        <div class="top">
+            <h1>Books</h1>
+            <a class="button" href="{% url 'creat_book' %}">Create book</a>
+        </div>
 
-    <a href="{% url 'delete' bok.id %}"> <button>delete</button> </a>
-    <a href="{% url 'update' bok.id %}"> <button>update</button> </a>
+        <form class="search" method="get">
+            <input type="text" name="search" value="{{ search }}" placeholder="Search book or author...">
+            <button type="submit">Search</button>
+            {% if search %}
+                <a href="{% url 'book_book' %}">Clear</a>
+            {% endif %}
+        </form>
 
-    {% endfor %}
-
-    <a href="{% url 'creat_book' %}"> <button>create_book</button> </a>
-    
+        <div class="list">
+            {% for bok in book %}
+                <div class="card">
+                    <div>
+                        <h2>{{ bok.title }}</h2>
+                        <p>Author: {{ bok.author }}</p>
+                        <p>{{ bok.pages }} pages · ${{ bok.price }}</p>
+                        <p>{{ bok.description }}</p>
+                    </div>
+                    <div class="actions">
+                        <a href="{% url 'update' bok.id %}">Update</a>
+                        <a class="danger" href="{% url 'delete' bok.id %}">Delete</a>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="empty">Book not found.</p>
+            {% endfor %}
+        </div>
+    </main>
 </body>
 </html>
